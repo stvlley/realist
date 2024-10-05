@@ -6,11 +6,22 @@ import {
   Archive,
   CircleDollarSign,
   Clipboard,
+  Home,
   HouseIcon,
   Layout,
+  List,
+  LucideHousePlug,
+  LucideHousePlus,
   LucideIcon,
+  LucideList,
+  MapIcon,
+  MapPin,
   Menu,
+  Server,
+  Settings,
   SlidersHorizontal,
+  SparkleIcon,
+  Sparkles,
   User,
 } from "lucide-react";
 import Image from "next/image";
@@ -82,7 +93,7 @@ const Sidebar = () => {
           isSidebarCollapsed ? "px-5" : "px-8"
         }`}
       >
-        <HouseIcon className="w-8 h-8" />
+        <LucideHousePlug className="w-8 h-8" />
         {/* <Image
           src="/favicon.ico"
           alt="edstock-logo"
@@ -115,33 +126,33 @@ const Sidebar = () => {
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
-          href="/inventory"
-          icon={Archive}
-          label="Inventory"
+          href="/#"
+          icon={Server}
+          label="Services"
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
-          href="/products"
-          icon={Clipboard}
-          label="Products"
+          href="/#"
+          icon={MapPin}
+          label="Map"
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
-          href="/users"
-          icon={User}
-          label="Users"
+          href="/#"
+          icon={Home}
+          label="Reports"
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
-          href="/settings"
-          icon={SlidersHorizontal}
+          href="/#"
+          icon={Sparkles}
+          label="AI"
+          isCollapsed={isSidebarCollapsed}
+        />
+        <SidebarLink
+          href="/#"
+          icon={Settings}
           label="Settings"
-          isCollapsed={isSidebarCollapsed}
-        />
-        <SidebarLink
-          href="/expenses"
-          icon={CircleDollarSign}
-          label="Expenses"
           isCollapsed={isSidebarCollapsed}
         />
       </div>
