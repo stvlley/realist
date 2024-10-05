@@ -1,0 +1,14 @@
+[
+  {
+    "RoleName": "Admin",
+    "Description": "Administrator with full permissions"
+  },
+  {
+    "RoleName": "Agent",
+    "Description": "Real estate agent"
+  },
+  {
+    "RoleName": "User",
+    "Description": "Regular user"
+  }
+]

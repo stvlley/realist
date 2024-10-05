@@ -1,0 +1,16 @@
+[
+  {
+    "ConversationID": 1,
+    "SenderID": 1,
+    "Content": "Hi, I'm interested in your property.",
+    "SentAt": "2023-02-01T09:00:00Z",
+    "IsRead": false
+  },
+  {
+    "ConversationID": 1,
+    "SenderID": 2,
+    "Content": "Thanks for your interest!",
+    "SentAt": "2023-02-01T10:00:00Z",
+    "IsRead": false
+  }
+]

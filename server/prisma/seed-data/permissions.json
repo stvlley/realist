@@ -1,0 +1,10 @@
+[
+  {
+    "PermissionName": "CanEditProperties",
+    "Description": "Allows editing of properties"
+  },
+  {
+    "PermissionName": "CanDeleteUsers",
+    "Description": "Allows deletion of users"
+  }
+]

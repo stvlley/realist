@@ -1,0 +1,14 @@
+[
+  {
+    "ServiceTypeName": "Contractor",
+    "Description": "Provides contracting services"
+  },
+  {
+    "ServiceTypeName": "Legal Team",
+    "Description": "Provides legal services"
+  },
+  {
+    "ServiceTypeName": "Inspector",
+    "Description": "Conducts property inspections"
+  }
+]

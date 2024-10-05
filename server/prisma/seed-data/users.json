@@ -1,0 +1,18 @@
+[
+  {
+    "FirstName": "Alice",
+    "LastName": "Smith",
+    "Email": "alice@example.com",
+    "PasswordHash": "hashed_password_1",
+    "PhoneNumber": "1234567890",
+    "IsActive": true
+  },
+  {
+    "FirstName": "Bob",
+    "LastName": "Johnson",
+    "Email": "bob@example.com",
+    "PasswordHash": "hashed_password_2",
+    "PhoneNumber": "0987654321",
+    "IsActive": true
+  }
+]

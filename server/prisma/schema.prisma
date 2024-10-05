@@ -1,14 +1,328 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") 
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+
+model User {
+  UserID         Int       @id @default(autoincrement())
+  FirstName      String?
+  LastName       String?
+  Email          String    @unique
+  PasswordHash   String
+  PhoneNumber    String?
+  ProfilePicture String?
+  CreatedAt      DateTime  @default(now())
+  UpdatedAt      DateTime  @updatedAt
+  IsActive       Boolean   @default(true)
+
+
+  UserRoles             UserRole[]
+  Properties            Property[]
+  Messages              Message[]
+  Favorites             Favorite[]
+  Reviews               Review[]
+  Notifications         Notification[]
+  AIReportsGenerated    AIReport[]   @relation("GeneratedBy")
+
+}
+
+
+model Role {
+  RoleID      Int        @id @default(autoincrement())
+  RoleName    String     @unique
+  Description String?
+
+
+  UserRoles       UserRole[]
+  RolePermissions RolePermission[]
+}
+
+
+model UserRole {
+  UserRoleID Int  @id @default(autoincrement())
+  UserID     Int
+  RoleID     Int
+
+
+  User User @relation(fields: [UserID], references: [UserID])
+  Role Role @relation(fields: [RoleID], references: [RoleID])
+
+  @@index([UserID])
+  @@index([RoleID])
+}
+
+// Model: ServiceType
+model ServiceType {
+  ServiceTypeID   Int       @id @default(autoincrement())
+  ServiceTypeName String    @unique
+  Description     String?
+
+  // Relations
+  Services Service[]
+}
+
+// Model: Service
+model Service {
+  ServiceID     Int       @id @default(autoincrement())
+  Name          String
+  ContactInfo   String?
+  ServiceTypeID Int
+  Address       String?
+  Email         String?
+  Phone         String?
+  CreatedAt     DateTime  @default(now())
+  UpdatedAt     DateTime  @updatedAt
+
+  // Relations
+  ServiceType                  ServiceType                   @relation(fields: [ServiceTypeID], references: [ServiceTypeID])
+  PropertyInspectionReports    PropertyInspectionReport[]    @relation("Inspector")
+  AIReportServices             AIReportService[]
+
+  @@index([ServiceTypeID])
+}
+
+
+model Property {
+  PropertyID     Int        @id @default(autoincrement())
+  OwnerID        Int
+  Address        String?
+  City           String?
+  State          String?
+  ZipCode        String?
+  Country        String?
+  Latitude       Float?
+  Longitude      Float?
+  PropertyType   String?
+  Bedrooms       Int?
+  Bathrooms      Int?
+  SquareFootage  Int?
+  Price          Float?
+  Description    String?
+  CreatedAt      DateTime   @default(now())
+  UpdatedAt      DateTime   @updatedAt
+  IsActive       Boolean    @default(true)
+
+
+  Owner                User                    @relation(fields: [OwnerID], references: [UserID])
+  PropertyInspectionReports PropertyInspectionReport[]
+  PropertyMedia        PropertyMedia[]
+  Favorites            Favorite[]
+  Reviews              Review[]
+  AIReportProperties   AIReportProperty[]
+
+  @@index([OwnerID])
+}
+
+
+model PropertyInspectionReport {
+  ReportID        Int       @id @default(autoincrement())
+  PropertyID      Int
+  InspectorID     Int
+  InspectionDate  DateTime?
+  Findings        String?
+  Recommendations String?
+  CreatedAt       DateTime  @default(now())
+  UpdatedAt       DateTime  @updatedAt
+
+
+  Property Property @relation(fields: [PropertyID], references: [PropertyID])
+  Inspector Service @relation("Inspector", fields: [InspectorID], references: [ServiceID])
+
+  @@index([PropertyID])
+  @@index([InspectorID])
+}
+
+
+model PropertyMedia {
+  MediaID     Int       @id @default(autoincrement())
+  PropertyID  Int
+  MediaType   String?
+  MediaURL    String?
+  CreatedAt   DateTime  @default(now())
+  UpdatedAt   DateTime  @updatedAt
+
+
+  Property Property @relation(fields: [PropertyID], references: [PropertyID])
+
+  @@index([PropertyID])
+}
+
+
+model Conversation {
+  ConversationID Int       @id @default(autoincrement())
+  Subject        String?
+  CreatedAt      DateTime  @default(now())
+  UpdatedAt      DateTime  @updatedAt
+
+
+  Messages Message[]
+}
+
+
+model Message {
+  MessageID      Int       @id @default(autoincrement())
+  ConversationID Int
+  SenderID       Int
+  Content        String?
+  SentAt         DateTime  @default(now())
+  IsRead         Boolean   @default(false)
+
+
+  Conversation Conversation @relation(fields: [ConversationID], references: [ConversationID])
+  Sender       User         @relation(fields: [SenderID], references: [UserID])
+
+  @@index([ConversationID])
+  @@index([SenderID])
+}
+
+
+model Favorite {
+  FavoriteID  Int       @id @default(autoincrement())
+  UserID      Int
+  PropertyID  Int
+  CreatedAt   DateTime  @default(now())
+
+
+  User     User     @relation(fields: [UserID], references: [UserID])
+  Property Property @relation(fields: [PropertyID], references: [PropertyID])
+
+  @@index([UserID])
+  @@index([PropertyID])
+}
+
+
+model Review {
+  ReviewID    Int       @id @default(autoincrement())
+  ReviewerID  Int
+  PropertyID  Int
+  Rating      Int       
+  Comment     String?
+  CreatedAt   DateTime  @default(now())
+
+
+  Reviewer User     @relation(fields: [ReviewerID], references: [UserID])
+  Property Property @relation(fields: [PropertyID], references: [PropertyID])
+
+  @@index([ReviewerID])
+  @@index([PropertyID])
+}
+
+
+model Notification {
+  NotificationID Int       @id @default(autoincrement())
+  UserID         Int
+  Message        String?
+  IsRead         Boolean   @default(false)
+  CreatedAt      DateTime  @default(now())
+
+
+  User User @relation(fields: [UserID], references: [UserID])
+
+  @@index([UserID])
+}
+
+
+model AdminSetting {
+  SettingID    Int       @id @default(autoincrement())
+  SettingName  String    @unique
+  SettingValue String?
+  Description  String?
+  UpdatedAt    DateTime  @updatedAt
+}
+
+
+model Permission {
+  PermissionID   Int       @id @default(autoincrement())
+  PermissionName String    @unique
+  Description    String?
+
+
+  RolePermissions RolePermission[]
+}
+
+
+
+
+
+// FUTURE IMPLEMENTATION
+model AIReport {
+  AIReportID       Int       @id @default(autoincrement())
+  Title            String?
+  Content          String?
+  GeneratedBy      Int?
+  CreatedAt        DateTime  @default(now())
+  UpdatedAt        DateTime  @updatedAt
+
+
+  GeneratedByUser    User?               @relation("GeneratedBy", fields: [GeneratedBy], references: [UserID])
+  AIReportProperties AIReportProperty[]
+  AIReportServices   AIReportService[]
+  AIReportRecipients AIReportRecipient[]
+
+  @@index([GeneratedBy])
+}
+
+
+model AIReportProperty {
+  AIReportPropertyID Int       @id @default(autoincrement())
+  AIReportID         Int
+  PropertyID         Int
+
+
+  AIReport AIReport @relation(fields: [AIReportID], references: [AIReportID])
+  Property Property @relation(fields: [PropertyID], references: [PropertyID])
+
+  @@index([AIReportID])
+  @@index([PropertyID])
+}
+
+
+model AIReportService {
+  AIReportServiceID Int       @id @default(autoincrement())
+  AIReportID        Int
+  ServiceID         Int
+
+
+  AIReport AIReport @relation(fields: [AIReportID], references: [AIReportID])
+  Service  Service  @relation(fields: [ServiceID], references: [ServiceID])
+
+  @@index([AIReportID])
+  @@index([ServiceID])
+}
+
+
+model AIReportRecipient {
+  AIReportRecipientID Int       @id @default(autoincrement())
+  AIReportID          Int
+  RecipientEmail      String
+  SentAt              DateTime  @default(now())
+
+
+  AIReport AIReport @relation(fields: [AIReportID], references: [AIReportID])
+
+  @@index([AIReportID])
+}
+
+
+model RolePermission {
+  RolePermissionID Int       @id @default(autoincrement())
+  RoleID           Int
+  PermissionID     Int
+
+
+  Role       Role       @relation(fields: [RoleID], references: [RoleID])
+  Permission Permission @relation(fields: [PermissionID], references: [PermissionID])
+
+  @@index([RoleID])
+  @@index([PermissionID])
 }
