@@ -104,7 +104,7 @@ const Sidebar = () => {
         <h1
           className={`${
             isSidebarCollapsed ? "hidden" : "block"
-          } font-extrabold text-2xl`}
+          } tracking-widest  font-extrabold text-2xl`}
         >
           ReaList
         </h1>
