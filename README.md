@@ -13,16 +13,19 @@ REALIST/
 │   ├── package.json                # Client dependencies and scripts
 │   ├── tailwind.config.js          # TailwindCSS Configuration
 │   └── tsconfig.json               # TypeScript Configuration
-│   
-├── server/                         # Backend (Server-Side) Directory (Express.js)
+│
+├── server/                         # Backend (Server-Side) Directory (Express.js + Neon + Drizzle)
 │   ├── src/                        # Source files
 │   │   ├── controllers/            # Controllers for handling API requests
 │   │   ├── models/                 # Database Models (SQL)
 │   │   ├── routes/                 # API Routes
 │   │   ├── middleware/             # Express Middleware
-│   │   └── services/               # Business Logic Services
+│   │   ├── services/               # Business Logic Services
+│   │   └── drizzleOptions.js       # Drizzle Configuration and Contract Interactions
 │   ├── migrations/                 # Database migration scripts (e.g., raw SQL or other migration tools)
-│   ├── .env                        # Environment variables (Supabase credentials, secrets)
+│   ├── rust/                       # Rust source files for Neon integration
+│   │   └── lib.rs                  # Main Rust library file for building native modules
+│   ├── .env                        # Environment variables (Supabase credentials, secrets, blockchain config)
 │   ├── package.json                # Server dependencies and scripts
 │   ├── tsconfig.json               # TypeScript Configuration
 │   ├── nodemon.json                # Nodemon Configuration for auto-reloading
