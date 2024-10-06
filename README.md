@@ -1,5 +1,6 @@
 # Realist App Initial Overview
 
+```bash
 REALIST/
 ├── client/                         # Frontend (Client-Side) Directory (Next.js + TailwindCSS)
 │   ├── public/                     # Static files (favicon, images, etc.)
@@ -33,5 +34,3 @@ REALIST/
 ├── node_modules/                   # Node.js dependencies
 ├── .gitignore                      # Git ignore file
 └── README.md                       # Project documentation
-
-
