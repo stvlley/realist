@@ -1,51 +1,42 @@
-# Realist App Directory Structure
+# Realist App Initial Overview
 
 ```bash
 Realist-App/
-├── public/                         # Static files
-│   ├── favicon.ico                 # Favicon
-│   ├── images/                     # App images and assets
-│   └── robots.txt                  # SEO and crawlers
-├── src/                            # Source files
-│   ├── components/                 # Reusable React components
-│   │   ├── Layout.js               # Main layout component
-│   │   ├── Navbar.js               # Navbar component
-│   │   └── Tabs.js                 # Tabs component
-│   ├── pages/                      # Next.js Pages (Routing)
-│   │   ├── api/                    # API Routes
-│   │   │   ├── services/           # Backend service APIs
-│   │   │   │   └── index.js        # API for fetching services
-│   │   │   └── auth.js             # Authentication API
-│   │   ├── index.js                # Homepage
-│   │   ├── services.js             # Services page
-│   │   ├── products.js             # Products page
-│   │   ├── users.js                # Users management page
-│   │   └── _app.js                 # Custom app wrapper for global styles
-│   ├── styles/                     # Styling (Tailwind or global styles)
-│   │   ├── globals.css             # Global styles with TailwindCSS
-│   │   └── tailwind.config.js      # TailwindCSS configuration
-│   ├── hooks/                      # Custom React Hooks
-│   │   └── useAuth.js              # Authentication hook
-│   ├── context/                    # Global state/context providers
-│   │   └── AuthContext.js          # Authentication context
-│   └── utils/                      # Utility functions
-│       ├── api.js                  # API helper functions
-│       └── validation.js           # Form validation functions
-├── prisma/                         # Prisma ORM (If using PostgreSQL/Supabase)
-│   ├── schema.prisma               # Database schema
-│   └── migrations/                 # Database migrations
-├── .env.local                      # Environment variables for development
+├── client/                         # Frontend (Client-Side) Directory (Next.js + TailwindCSS)
+│   ├── public/                     # Static files (favicon, images, etc.)
+│   ├── src/                        # Source files
+│   │   ├── components/             # Reusable UI Components
+│   │   ├── hooks/                  # Custom Hooks
+│   │   ├── pages/                  # Next.js Pages (Routes)
+│   │   ├── styles/                 # Global styles (TailwindCSS)
+│   │   └── utils/                  # Helper functions
+│   ├── package.json                # Client dependencies and scripts
+│   ├── tailwind.config.js          # TailwindCSS Configuration
+│   └── tsconfig.json               # TypeScript Configuration
+│   
+├── server/                         # Backend (Server-Side) Directory (Express.js)
+│   ├── src/                        # Source files
+│   │   ├── controllers/            # Controllers for handling API requests
+│   │   ├── models/                 # Database Models (SQL)
+│   │   ├── routes/                 # API Routes
+│   │   ├── middleware/             # Express Middleware
+│   │   └── services/               # Business Logic Services
+│   ├── migrations/                 # Database migration scripts (e.g., raw SQL or other migration tools)
+│   ├── .env                        # Environment variables (Supabase credentials, secrets)
+│   ├── package.json                # Server dependencies and scripts
+│   ├── tsconfig.json               # TypeScript Configuration
+│   ├── nodemon.json                # Nodemon Configuration for auto-reloading
+│   └── README.md                   # Backend documentation
+│
+├── shared/                         # Shared files and utilities between client and server
+│   └── utils/                      # Utility functions shared between client and server
+│
+├── node_modules/                   # Node.js dependencies
 ├── .gitignore                      # Git ignore file
-├── next.config.js                  # Next.js configuration
-├── postcss.config.js               # PostCSS configuration
-├── tailwind.config.js              # TailwindCSS configuration
-├── package.json                    # Dependencies and scripts
-├── yarn.lock                       # Lockfile for Yarn dependencies
 └── README.md                       # Project documentation
 
 
-
-# Realist App Database Schema
+### TABLES 
 
 ## 1. Users Table
 | Column           | Data Type     | Description                           |
@@ -56,6 +47,7 @@ Realist-App/
 | password_hash    | TEXT          | Hashed password                       |
 | role             | ENUM          | ['agent', 'client', 'contractor', 'admin'] |
 | phone_number     | VARCHAR(20)   | Contact number                        |
+| organization_id  | UUID          | Foreign key referencing `organization(id)` |
 | created_at       | TIMESTAMP     | When the user was created             |
 | updated_at       | TIMESTAMP     | When the user was last updated        |
 
