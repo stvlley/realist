@@ -1,16 +1,34 @@
 # "org" ensures this Service is used with the correct Serverless Framework Access Key.
-org: realist
-# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
-app: realist
+# org: realist
+# # "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+# app: realist
 # "service" is the name of this project. This will also be added to your AWS resource names.
 service: serverless-nodejs-api
 
 provider:
   name: aws
   runtime: nodejs20.x
+  esbuild:
+    bundle: true
+    minify: true
+    sourcemap: true
+    target: "node20"
   environment:
     DEBUG: ${env:DEBUG, 0}
     DATABASE_URL: ${env:DATABASE_URL}
+    STAGE: ${env:STAGE, "prod"}
+  iam:
+    role:
+      name: serverless-my-ssm-role-${env:STAGE, "prod"}
+      statements:
+        - Effect: 'Allow'
+          Resource: '*'
+          Action:
+            - "ssm:GetParameter"
+            - "ssm:GetParameters"
+            - "ssm:GetParametersByPath"
+            - "ssm:GetParameterHistory"
+            - "ssm:DescribeParameters"
 
 functions:
   api:
@@ -18,6 +36,17 @@ functions:
     events:
       - httpApi: "*"
 
+custom:
+  dotenv:
+    exclude:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN
+      # - DATABASE_URL
+
 plugins:
   - serverless-offline
   - serverless-dotenv-plugin
+
+package:
+  excludeDevDependencies: true
