@@ -1,7 +1,8 @@
+import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import DashboardWrapper from "./dashboardWrapper";
+import PageWrapper from "./PageWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +17,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <DashboardWrapper>{children}</DashboardWrapper>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <PageWrapper>{children}</PageWrapper>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
