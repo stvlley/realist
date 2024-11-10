@@ -44,7 +44,7 @@ const SidebarLink = ({
 }: SidebarLinkProps) => {
   const pathname = usePathname();
   const isActive =
-    pathname === href || (pathname === "/" && href === "/dashboard");
+    pathname === href ;
 
   return (
     <Link href={href}>
@@ -93,7 +93,9 @@ const Sidebar = () => {
           isSidebarCollapsed ? "px-5" : "px-8"
         }`}
       >
-        <LucideHousePlug className="w-8 h-8" />
+        <a className="w-8 h-8" href="/">
+          <LucideHousePlug  />
+        </a>
         {/* <Image
           src="/favicon.ico"
           alt="edstock-logo"
@@ -126,7 +128,7 @@ const Sidebar = () => {
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
-          href="/#"
+          href="/services"
           icon={Server}
           label="Services"
           isCollapsed={isSidebarCollapsed}
